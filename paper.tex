@@ -13,9 +13,7 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{Multi-Task Temporal and Spatial Networks for High-Precision Event Spotting in Volleyball Videos\\
-{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
-should not be used}
+\title{Multi-Task Temporal and Spatial Networks for Precise Event Spotting in Volleyball Videos\\
 \thanks{Identify applicable funding agency here. If none, delete this.}
 }
 
@@ -63,7 +61,7 @@ email address or ORCID}
 \end{abstract}
 
 \begin{IEEEkeywords}
-component, formatting, style, styling, insert
+precise event spotting, video understanding, spatial temporal event spotting, deep learning, volleyball, sport
 \end{IEEEkeywords}
 
 \section{Introduction}
@@ -72,18 +70,18 @@ Video understanding has emerged as a cornerstone in computer vision, offering va
 
 Recent advancements in action spotting, such as \textit{T-DEED} \cite{tdeed23} and \textit{E2E-Spot} \cite{spot22}, have demonstrated the ability of models to achieve frame-level precision in fast-paced events using deep learning architectures. Datasets like \textit{FigureSkating} \cite{figureskating} and \textit{FineDiving} \cite{finediving} have been pivotal in advancing action spotting, emphasizing the importance of precise temporal detection in sports with individual athletes. However, these datasets are tailored to specific sports and do not capture the complexity and rapid dynamics of team-based, high-speed sports, such as volleyball.
 
-In volleyball, rapid play transitions occur within specific areas of the court, making precise spatial localization as important as temporal accuracy. To address this, we introduce the new task of \textit{high-precision spatial-temporal event spotting}, designed to detect both the exact timing and spatial location of key events. Unlike conventional action spotting, this task provides richer insights into player positioning and movement patterns, which are crucial for analyzing volleyball gameplay.
+In volleyball, rapid play transitions occur within specific areas of the court, making precise spatial localization as important as temporal accuracy. To address this, we introduce the new task of \textit{Precise spatio-temporal event spotting}, designed to detect both the exact timing and spatial location of key events. Unlike conventional action spotting, this task provides richer insights into player positioning and movement patterns, which are crucial for analyzing volleyball gameplay.
 
 In other sports, datasets like \textit{SoccerNet-v2} \cite{soccernetv2} have pushed the boundaries of action spotting through rich temporal and spatial annotations, significantly advancing model capabilities. Yet, no equivalent dataset exists for volleyball, a sport characterized by its rapid exchanges and the need for precise localization of actions. To fill this gap, we introduce the \textit{KOVO Event Dataset}, comprising 947 rally videos, 890,797 frames, and 5,935 annotated key actions. This dataset offers granular annotations for both temporal and spatial event localization, making it a valuable resource for developing models that capture the intricacies of volleyball.
 
 Our contributions are threefold:
 \begin{itemize}
-    \item \textbf{New Task Introduction:} We introduce the task of high-precision spatial-temporal event spotting, specifically tailored for the dynamics of volleyball.
+    \item \textbf{New Task Introduction:} We introduce the task of Precise spatio-temporal event spotting, specifically tailored for the dynamics of volleyball.
     \item \textbf{Dataset Development:} We present the \textit{KOVO Event Dataset}, the first of its kind to include detailed temporal and spatial annotations for volleyball rallies, aimed at fostering research in this area.
     \item \textbf{Model Development:} We propose a multi-task deep learning model that jointly predicts event timing and spatial positions, leveraging this dual focus to achieve improved performance. Notably, incorporating spatial predictions into our model enhances temporal mAP by 5.89 points.
 \end{itemize}
 
-Our best model achieves a temporal mAP of 90.59, a spatial mAP of 77.94, and a combined mAP of 85.46, providing a strong baseline for this new task. To the best of our knowledge, this work is the first to explore high-precision spatial-temporal event spotting in volleyball, setting the stage for future research in this area.
+Our best model achieves a temporal mAP of 90.59, a spatial mAP of 77.94, and a combined mAP of 85.46, providing a strong baseline for this new task. As far as we are aware, this work is the first to explore Precise spatio-temporal event spotting in volleyball, setting the stage for future research in this area.
 
 
 % TODO: Fill this when finish paper
@@ -99,21 +97,21 @@ Video classification aims to predict a single label for an entire video, in cont
 
 \subsection{Temporal Action Localization}
 
-Temporal Action Localization (TAL) aims to identify the time intervals when specific actions occur in untrimmed videos, making it ideal for longer actions that are not instantaneous. Unlike video classification, which assigns a single label to an entire video, TAL requires precise start and end times, making it more complex.
+The goal of Temporal Action Localization (TAL) is to localize the temporal intervals when specific actions occur in untrimmed videos, making it ideal for prolonged actions that are not instantaneous. In contrast to video classification, which assigns a single label to an entire video, TAL requires precise start and end times, adding more complexity.
 
-TAL methods are typically categorized into two groups: two-stage \cite{9578330,10.1007/978-3-319-46487-9_47} and one-stage \cite{10203543,zhang2022actionformer} approaches. Two-stage models generate action proposals before classifying them, while one-stage models directly predict actions and their intervals in a streamlined process. Recent methods, like ActionFormer \cite{zhang2022actionformer} and TriDet \cite{tridet}, leverage advanced architectures, including transformers and feature pyramids, to improve temporal precision across varying action durations. Anchor-free approaches \cite{9171561} have further enhanced flexibility in predicting actions without relying on predefined time windows.
+Typically, there are two approaches to TAL: two-stage \cite{9578330,10.1007/978-3-319-46487-9_47} and one-stage \cite{10203543,zhang2022actionformer}. In two-stage models, action proposals are generated first then used for classification, while action class and temporal intervals are done in one streamlined process. Recently, advanced techniques such as Transformers and Feature Pyramid Network are incorporated to improve temporal precision across varying action duractions, like ActionFormer \cite{zhang2022actionformer} and TriDet \cite{tridet}. Anchor-free approaches \cite{9171561} have further enhanced flexibility in predicting actions without relying on predefined time windows.
 
-TAL's development has been driven by extensive datasets and benchmarks such as ActivityNet \cite{ActivityNet}, EPIC-KITCHENS \cite{damen2018scalingegocentricvisionepickitchens}, and THUMOS Challenge \cite{Idrees_2017}, making it a well-explored field for understanding complex, prolonged actions in videos. However, it remains distinct from action spotting, which focuses on identifying brief, precise moments in fast-paced scenarios.
+Datasets and benchmarks such as ActivityNet \cite{ActivityNet}, EPIC-KITCHENS \cite{damen2018scalingegocentricvisionepickitchens}, and THUMOS Challenge \cite{Idrees_2017} have driven the development of TAL, which has become a central topic in Video Understand. By contrast, the precise identification of single-timestamp events remains less explored.
 
-\subsection{Precise Event Spotting (PES)}\label{AA}
+\subsection{Precise Event Spotting (PES)}
 
 Precise Event Spotting (PES) aims to detect the exact frames of key events in untrimmed videos, making it ideal for fast, critical moments in sports. Unlike Temporal Action Localization (TAL), which spans broader time intervals, PES requires frame-level accuracy, crucial for detailed sports analysis where slight timing shifts can alter game interpretations.
 
 Datasets like \textit{FigureSkating} \cite{figureskating} and \textit{FineDiving} \cite{finediving} have advanced PES with frame-level annotations, but focus on simpler, individual sports. Recent methods, such as \textit{T-DEED} \cite{tdeed23} and \textit{E2E-Spot} \cite{spot22}, enhance precision by refining temporal representations and avoiding pooling, but lack spatial context needed for team sports.
 
-In volleyball, spatial localization is as critical as timing. Understanding event locations is key to analyzing player movements and strategies. Our work addresses this by introducing a new task and dataset for high-precision spatial-temporal event spotting in volleyball, capturing both event timing and location.
+In volleyball, spatial localization is as critical as timing. Understanding event locations is key to analyzing player movements and strategies. Our work addresses this by introducing a new task and dataset for Precise spatio-temporal event spotting in volleyball, capturing both event timing and location.
 
-Inspired by \textit{E2E-Spot} \cite{spot22}, our approach uses RegNet-Y \cite{radosavovic2020designingnetworkdesignspaces} with GSM \cite{9156729} for adaptive temporal shifts. This combination balances efficiency and precision, making it ideal for capturing complex spatial-temporal dynamics in volleyball.
+Inspired by \textit{E2E-Spot} \cite{spot22}, our approach uses RegNet-Y \cite{radosavovic2020designingnetworkdesignspaces} with GSM \cite{9156729} for adaptive temporal shifts. This combination balances efficiency and precision, making it ideal for capturing complex spatio-temporal dynamics in volleyball.
 
 \section{Dataset Overview}
 
@@ -121,21 +119,23 @@ Inspired by \textit{E2E-Spot} \cite{spot22}, our approach uses RegNet-Y \cite{ra
 \subsection{Annotation Process}
 \subsection{Dataset Splits}
 \subsection{Release and Access}
-Due to the large size of the dataset, we are unable to release the full-resolution (1280x720) videos in this paper. However, we have made a resized version (512x288 resolution) along with the corresponding annotations available on Kaggle, totaling 100GB. The dataset can be accessed at \url{www.kaggle.com/soon}.
+Given the large size of the dataset, we are unable to release the full-resolution (1280x720) videos in this paper. However, we have made a resized version (512x288 resolution) along with the corresponding annotations available on Kaggle, totaling 100GB. The dataset can be accessed at \url{www.kaggle.com/soon}.
 
 
-\section{PROPOSED METHOD}
+\section{Proposed Method}
 \subsection{Problem Formulation}
-\textbf{Spatial-Temporal Event Spotting (STES)} aims to identify both the precise time and location of events within untrimmed videos. Given a video with \(N\) frames \(x_1, \ldots, x_N\) and a set of \(K\) event classes \(c_1, \ldots, c_K\), the goal is to predict a sparse set of frame indices where events occur, as well as the corresponding event class and spatial coordinates. Each prediction is represented as \((t, c_t, s_t)\), where \(t\) is the frame index, \(c_t\) is the predicted event class, and \(s_t\) is the spatial location of the event within that frame. A temporal prediction is considered correct if it falls within a small temporal tolerance \(\sigma_f\) frames of the labeled event and matches the ground-truth class. Similarly, spatial predictions are deemed correct if the distance between the predicted location \(s_t\) and the ground-truth event location is within a specified threshold \(\sigma_p\). For STES, these tolerances are kept small, requiring precise frame-level accuracy, and it assumes that videos are captured with sufficiently high frame rates.
+\textbf{Precise Spatio-Temporal Event Spotting (PSTES)} aims to identify both the precise time and location of events within untrimmed videos. For a sequence of \(N\) frames \(x_1, \ldots, x_N\) and a set of \(K\) event classes \(c_1, \ldots, c_K\), the goal is to predict a sparse set of frame indices where events occur, as well as the corresponding event class and spatial coordinates. Each prediction is represented as \((t, c_t, s_t)\), where \(t\) is the frame index, \(c_t\) is the predicted event class, and \(s_t\) is the spatial location of the event within that frame. A temporal prediction is deemed correct if it falls within a small temporal tolerance \(\sigma_f\) frames of the labeled event and matches the ground-truth class. Similarly, spatial predictions are deemed correct if the distance between the predicted location \(s_t\) and the ground-truth event location is within a specified threshold \(\sigma_p\). For PSTES, these tolerances are kept small, requiring precise frame-level accuracy, and it assumes that videos are captured with sufficiently high frame rates.
 
-To perform well on this task, several key requirements must be met:
+To achieve strong performance on this task, several important factors must be considered:
+
 \begin{itemize}
-    \item \textbf{Local Spatial-Temporal Features}: The model should capture subtle visual changes and movements across neighboring frames, essential for distinguishing between similar-looking moments.
-    \item \textbf{Long-Term Temporal Context}: A broader temporal window allows the model to understand events in context, such as how player positions or actions evolve before and after a critical moment.
-    \item \textbf{Dense Per-Frame Predictions}: For each frame \(x_t\), the model produces a prediction \((\hat{y}_t, \hat{s}_t)\), where \(\hat{y}_t \in \mathbb{R}^K\) is a vector of logits representing class probabilities, and \(\hat{s}_t \in \mathbb{R}^2\) represents the \(x, y\) coordinates of the event within the frame. The final class \(c_t\) is obtained by applying argmax to \(\hat{y}_t\), ensuring frame-level precision for each event.
+    \item \textbf{Capturing Local Spatio-Temporal Features}: The model must be able to detect subtle visual changes and movements across adjacent frames, which is crucial for differentiating between events that may look quite similar.
+    \item \textbf{Incorporating Long-Term Temporal Context}: By analyzing a wider temporal range, the model can better understand how events unfold over time, such as tracking how player movements or actions develop before and after a key moment.
+    \item \textbf{Producing Dense Frame-Level Predictions}: For each frame \(x_t\), the model outputs predictions \((\hat{y}_t, \hat{s}_t)\), where \(\hat{y}_t \in \mathbb{R}^K\) represents the class probabilities in a vector of logits, and \(\hat{s}_t \in \mathbb{R}^2\) provides the spatial coordinates \((x, y)\) of the event in the frame. The event class \(c_t\) is determined by applying argmax to \(\hat{y}_t\), ensuring accuracy at the frame level for each event.
 \end{itemize}
 
-These requirements call for a robust and end-to-end trainable architecture capable of leveraging both temporal and spatial information. Our approach utilizes a sequence model that integrates local spatial-temporal features.
+Meeting these requirements necessitates a robust, end-to-end architecture that effectively leverages both spatial and temporal data. Our approach employs a sequence model that integrates local spatio-temporal features to achieve this goal.
+
 
 \subsection{Model Architecture}
 \subsubsection{Feature Extractor}
@@ -145,8 +145,7 @@ These requirements call for a robust and end-to-end trainable architecture capab
 \subsubsection{Loss Function}
 
 
-\section{EXPERIMENTS}
-\label{sec:experiments}
+\section{Experiments}
 \subsection{Implementation Details}
 \subsection{Training Strategy}
 \subsection{Evaluation Metrics}
