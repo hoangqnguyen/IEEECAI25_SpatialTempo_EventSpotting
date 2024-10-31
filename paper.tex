@@ -103,7 +103,7 @@ Typically, there are two approaches to TAL: two-stage \cite{9578330,10.1007/978-
 
 Datasets and benchmarks such as ActivityNet \cite{ActivityNet}, EPIC-KITCHENS \cite{damen2018scalingegocentricvisionepickitchens}, and THUMOS Challenge \cite{Idrees_2017} have driven the development of TAL, which has become a central topic in Video Understand. By contrast, the precise identification of single-timestamp events remains less explored.
 
-\subsection{Precise Event Spotting (PES)}
+\subsection{Precise Event Spotting}
 
 Precise Event Spotting (PES) aims to detect the exact frames of key events in untrimmed videos, making it ideal for fast, critical moments in sports. Unlike Temporal Action Localization (TAL), which spans broader time intervals, PES requires frame-level accuracy, crucial for detailed sports analysis where slight timing shifts can alter game interpretations.
 
@@ -138,11 +138,31 @@ Meeting these requirements necessitates a robust, end-to-end architecture that e
 
 
 \subsection{Model Architecture}
+To effectively learn spatio-temporal features, we propose a multi-task deep learning model comprising three key components: a Feature Extractor, a Dual-attention Feature Aggregation module, and Spatio-Temporal Prediction Heads. Drawing inspiration from Hong et al.\cite{spot22}, our model employs a RegNet-Y backbone \cite{radosavovic2020designingnetworkdesignspaces} with GSM \cite{9156729} for adaptive temporal shifts to extract features from each input frame. These features are subsequently aggregated via a dual-attention mechanism, integrating spatial and temporal information to enhance feature representations. The model then predicts event classes and spatial coordinates through distinct heads, each optimized with a multi-task loss function that balances temporal and spatial prediction objectives.
+
+\begin{figure}[htbp]
+    \centerline{\includegraphics{fig1.png}}
+    \caption{Example of a figure caption.}
+    \label{fig}
+    \end{figure}
 \subsubsection{Feature Extractor}
-\subsubsection{Temporal Event Detection}
-\subsubsection{Spatial Event Detection}
-\subsubsection{Multi-Task Learning}
-\subsubsection{Loss Function}
+The Feature Extractor processes each frame \( x_t \in \mathbb{R}^{H \times W \times 3} \) using a RegNet-Y backbone combined directly with a Gate Shift Module (GSM) to capture spatial and temporal information simultaneously. By embedding GSM within RegNet-Y, the network learns not only spatial structures but also the temporal motion present across frames, as GSM shifts features adaptively to track long-term dependencies. This integration produces a spatio-temporal feature \( f_t \in \mathbb{R}^d \) that captures both motion and spatial details, equipping the model to accurately interpret the flow of events and predict their progression.
+
+
+
+\subsubsection{Dual-attention Feature Aggregation}
+\begin{itemize}
+    % TODO: Review the original Squeeze and Excitation paper, to check if the explanation is correct. Also, add citation
+    \item \textbf{Channel Attention Module:} The Channel Attention Module employs a Squeeze-and-Excitation mechanism to refine feature representation by emphasizing informative channels. This allows the model to focus on key spatial features within each frame, enhancing its sensitivity to subtle visual cues and spatial patterns. By directing attention to relevant regions, the module aids the model in distinguishing between visually similar events occurring in different locations, improving accuracy in event differentiation.
+
+    % TODO: Review the original Transformer paper, to check if the explanation is correct. Also, add citation
+    \item \textbf{Temporal Attention Module:} Utilizing multi-head attention as described in the *Attention is All You Need* paper, the Temporal Attention Module aggregates features across adjacent frames to capture long-term dependencies and evolving event dynamics. By focusing on relevant temporal patterns within a broader context, this module enables the model to anticipate the timing and progression of key events with greater accuracy.
+
+\end{itemize}
+\subsubsection{Spatio-Temporal Prediction Heads}
+The model predicts event classes and spatial coordinates through distinct heads, each optimized with a multi-task loss function that balances temporal and spatial prediction objectives. The event class head outputs a vector of logits \(\hat{y}_t\) representing the predicted class probabilities for each event, while the spatial head outputs a vector of coordinates \(\hat{s}_t\) representing the predicted spatial location of the event within the frame. By jointly optimizing these heads, the model can effectively learn spatio-temporal features and produce accurate predictions for both event timing and location.
+\subsubsection{Multi-task Loss Function}
+The model is trained with a multi-task loss function that balances temporal and spatial prediction objectives, ensuring that the model learns to predict both when and where key events occur. The loss function is defined as the sum of two terms: a temporal classification loss and a spatial regression loss. The temporal classification loss penalizes errors in event class predictions
 
 
 \section{Experiments}
