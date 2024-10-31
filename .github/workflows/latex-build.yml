@@ -1,0 +1,32 @@
+# Credit: https://www.reddit.com/r/github/comments/yvkrbu/how_to_compile_latex_with_github_actions/
+
+name: Compile LaTeX to PDF
+
+on:
+  push:
+    branches:
+      - master # Specify the branch to trigger the action (e.g., master)
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image: ghcr.io/moderncv/debian-texlive-docker:main
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Compile LaTeX document
+        run: |
+          latexmk -pdf paper.tex  # replace 'main.tex' with the name of your LaTeX file
+
+      - name: Upload PDF as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: paper.pdf
+          path: ./paper.pdf
