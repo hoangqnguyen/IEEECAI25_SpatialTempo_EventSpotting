@@ -19,14 +19,14 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Compile LaTeX document
         run: |
           latexmk -pdf paper.tex  # replace 'main.tex' with the name of your LaTeX file
 
       - name: Upload PDF as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: paper.pdf
           path: ./paper.pdf
