@@ -140,6 +140,8 @@ Meeting these requirements necessitates a robust, end-to-end architecture that e
 \subsection{Model Architecture}
 To effectively learn spatio-temporal features, we propose a multi-task deep learning model comprising three key components: a Feature Extractor, a Dual-attention Feature Aggregation module, and Spatio-Temporal Prediction Heads. Drawing inspiration from Hong et al.\cite{spot22}, our model employs a RegNet-Y backbone \cite{radosavovic2020designingnetworkdesignspaces} with GSM \cite{9156729} for adaptive temporal shifts to extract features from each input frame. These features are subsequently aggregated via a dual-attention mechanism, integrating spatial and temporal information to enhance feature representations. The model then predicts event classes and spatial coordinates through distinct heads, each optimized with a multi-task loss function that balances temporal and spatial prediction objectives.
 
+% TODO: Add a Math formula for the model architecture: ...
+
 \begin{figure}[htbp]
     \centerline{\includegraphics{fig1.png}}
     \caption{Example of a figure caption.}
@@ -147,8 +149,6 @@ To effectively learn spatio-temporal features, we propose a multi-task deep lear
     \end{figure}
 \subsubsection{Feature Extractor}
 The Feature Extractor processes each frame \( x_t \in \mathbb{R}^{H \times W \times 3} \) using a RegNet-Y backbone combined directly with a Gate Shift Module (GSM) to capture spatial and temporal information simultaneously. By embedding GSM within RegNet-Y, the network learns not only spatial structures but also the temporal motion present across frames, as GSM shifts features adaptively to track long-term dependencies. This integration produces a spatio-temporal feature \( f_t \in \mathbb{R}^d \) that captures both motion and spatial details, equipping the model to accurately interpret the flow of events and predict their progression.
-
-
 
 \subsubsection{Dual-attention Feature Aggregation}
 \begin{itemize}
@@ -160,6 +160,7 @@ The Feature Extractor processes each frame \( x_t \in \mathbb{R}^{H \times W \ti
 
 \end{itemize}
 \subsubsection{Spatio-Temporal Prediction Heads}
+% TODO: Refine this 
 The model predicts event classes and spatial coordinates through distinct heads, each optimized with a multi-task loss function that balances temporal and spatial prediction objectives. The event class head outputs a vector of logits \(\hat{y}_t\) representing the predicted class probabilities for each event, while the spatial head outputs a vector of coordinates \(\hat{s}_t\) representing the predicted spatial location of the event within the frame. By jointly optimizing these heads, the model can effectively learn spatio-temporal features and produce accurate predictions for both event timing and location.
 \subsubsection{Multi-task Loss Function}
 The model is trained with a multi-task loss function that balances temporal and spatial prediction objectives, ensuring that the model learns to predict both when and where key events occur. The loss function is defined as the sum of two terms: a temporal classification loss and a spatial regression loss. The temporal classification loss penalizes errors in event class predictions
