@@ -119,12 +119,24 @@ In volleyball, spatial localization is as critical as timing. Understanding even
 Inspired by \textit{E2E-Spot} \cite{spot22}, our approach uses RegNet-Y \cite{radosavovic2020designingnetworkdesignspaces} with GSM \cite{9156729} for adaptive temporal shifts. This combination balances efficiency and precision, making it ideal for capturing complex spatio-temporal dynamics in volleyball.
 
 \section{Dataset Overview}
-
+% TODO: Please refine this crappy draft
+We collect games from 23-24 seasons from a private kovo database.
 \subsection{Data Content and Statistics}
+We wrote python script to automatically download volleyball games videos and its event timing.
+Then we use May's field keypoints detection to segmentize each game into replay vs inplay sequences (we call it rallies). Then, we extract each short video into indifual frames, at 30 fps and 1280x720. To annotate the event locaion, we build our own proprieatry tool, which is described in the anntoation process subsection.
 \subsection{Annotation Process}
+We annotate each event with location. For volleyball, the ball location is typically the most important cue for each game event. Therefore, most of the time, we annotate the ball location as the event location.
+Also, ball location tracking is a well researched topic. This means that we could use ball detection module such as vanyis to get the ball location without human labour.
+\begin{figure}[htbp]
+    \centerline{\includegraphics{fig1.png}}
+    \caption{The GUI of our internal annotation tool}
+    \label{fig-annotate-app}
+\end{figure}
 \subsection{Dataset Splits}
+We handpicked videos with diverse visual features to ....
+then we split them into train val test ...
 \subsection{Release and Access}
-Given the large size of the dataset, we are unable to release the full-resolution (1280x720) videos in this paper. However, we have made a resized version (512x288 resolution) along with the corresponding annotations available on Kaggle, totaling 100GB. The dataset can be accessed at \url{www.kaggle.com/soon}.
+Given the large size of the dataset, we are unable to release the full-resolution (1280x720) videos in this paper. However, we have made a resized version (512x288 resolution) along with the corresponding annotations available on Kaggle, totaling 100GB. Our dataset is available at our project page: \url{www.kaggle.com/soon}. Note that, due to copyright restrictions, please fill in the NDA form to get access to the data.
 
 
 \section{Proposed Method}
