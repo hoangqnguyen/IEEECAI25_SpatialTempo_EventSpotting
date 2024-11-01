@@ -7,9 +7,9 @@
   - [x] Annotation Process
   - [x] Dataset Splits
   - [x] Release and Access
-- [ ] Proposed Method
+- [x] Proposed Method
   - [x] Problem Formulation
-  - [ ] Architecture
+  - [x] Architecture
     - [x] Feature Extractor
     - [x] Dual Attention Block
     - [x] Predictor Heads
