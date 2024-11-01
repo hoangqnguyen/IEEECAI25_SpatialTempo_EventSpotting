@@ -103,7 +103,7 @@ Our best model achieves a temporal mAP of 90.59, a spatial mAP of 77.94, and a c
 
 
 \section{Related work}
-
+% TODO: Can write about Squeeze Ex and Multihead attention and their use in video understanding instead of TAL, etc... (or at least shorten them)
 \subsection{Video Classification}
 
 Video classification aims to predict a single label for an entire video, in contrast to event spotting, which requires precise frame-level labeling. This distinction introduces unique challenges: video classification can leverage sparse frame sampling \cite{tsn}, whereas event spotting demands dense sampling to capture rapid changes in events. Additionally, classification models often employ global space-time pooling \cite{8578773} or temporal consensus \cite{zhou2018temporalrelationalreasoningvideos} to produce video-level predictions, while event spotting necessitates preserving high temporal resolution.
@@ -212,8 +212,7 @@ To effectively learn spatio-temporal features, we propose a multi-task deep lear
 \begin{figure*} 
     \centering
     \includegraphics[width=\textwidth]{figures/fig-arch.jpg}
-    \caption{Model architecture.}
-    \label{fig-arch}
+    \caption{Illustration of DMTN Architecture Comprising Three Key Components: (1) \textbf{Feature Extractor} that processes each frame through RegNet-Y with Gate Shift Modules (GSM) to capture both spatial and temporal information; (2) \textbf{Dual-Attention Feature Aggregator} that combines Channel Attention and Temporal Attention mechanisms to integrate local and global spatio-temporal features, enhancing the model’s ability to capture subtle event dynamics; and (3) \textbf{Multi-Task Prediction Heads} that output per-frame classifications and spatial coordinates, enabling precise spatio-temporal event spotting for volleyball gameplay analysis.}    \label{fig-arch}
 \end{figure*}
 
 
