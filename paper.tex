@@ -122,22 +122,65 @@ Inspired by \textit{E2E-Spot} \cite{spot22}, our approach uses RegNet-Y \cite{ra
 % TODO: Please refine this crappy draft
 We collect games from 23-24 seasons from a private kovo database.
 \subsection{Data Content and Statistics}
+
+
 We wrote python script to automatically download volleyball games videos and its event timing.
 Then we use May's field keypoints detection \cite{10312494} to segmentize each game into replay vs inplay sequences (we call it rallies). Then, we extract each short video into indifual frames, at 30 fps and 1280x720. To annotate the event locaion, we build our own proprieatry tool, which is described in the anntoation process subsection.
 \subsection{Annotation Process}
 We annotate each event with location. For volleyball, the ball location is typically the most important cue for each game event. Therefore, most of the time, we annotate the ball location as the event location.
 Also, ball location tracking is a well researched topic. This means that we could use ball detection module such as vanyis \cite{10312079} to get the ball location without human labour.
+\begin{table}[htbp]
+    \caption{KOVO Dataset Action Counts and Percentages}
+    \begin{center}
+    \begin{tabular}{|c|c|c|}
+    \hline
+    \textbf{Action} & \textbf{\# Events} & \textbf{Percentage (\%)} \\
+    \hline
+    Serve & 947 & 15.96 \\
+    Receive & 844 & 14.22 \\
+    Set & 1359 & 22.90 \\
+    Spike & 1315 & 22.16 \\
+    Dig & 807 & 13.60 \\
+    Block & 663 & 11.17 \\
+    \hline
+    \end{tabular}
+    \label{tab-kovo-stat1}
+    \end{center}
+    \end{table}
+    
+
+
 \begin{figure}[htbp]
     \centerline{\includegraphics{fig1.png}}
     \caption{The GUI of our internal annotation tool}
     \label{fig-annotate-app}
 \end{figure}
+
+
 \subsection{Dataset Splits}
 We handpicked videos with diverse visual features to ....
 then we split them into train val test ...
+
+
+\begin{table}[htbp]
+    \caption{Dataset Splits for Volleyball Analysis}
+    \begin{center}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    \textbf{Split} & \textbf{\# Clips (Rallies)} & \textbf{\# Events} & \textbf{\# Frames} \\
+    \hline
+    All & 947 & 5,935 & 257,388 \\
+    Train & 561 & 3,631 & 156,818 \\
+    Validation & 220 & 1,356 & 58,430 \\
+    Test & 166 & 948 & 42,140 \\
+    \hline
+    \end{tabular}
+    \label{tab-kovo-split}
+    \end{center}
+    \end{table}
 \subsection{Release and Access}
 Given the large size of the dataset, we are unable to release the full-resolution (1280x720) videos in this paper. However, we have made a resized version (512x288 resolution) along with the corresponding annotations available on Kaggle, totaling 100GB. Our dataset is available at our project page: \url{www.kaggle.com/soon}. Note that, due to copyright restrictions, please fill in the NDA form to get access to the data.
-
+    
 
 \section{Proposed Method}
 \subsection{Problem Formulation}
