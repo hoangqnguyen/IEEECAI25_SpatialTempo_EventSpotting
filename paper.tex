@@ -223,11 +223,11 @@ The Feature Extractor processes each frame \( x_t \in \mathbb{R}^{H \times W \ti
 \subsubsection{Dual-Attention Feature Aggregation}
 The Dual-Attention Feature Aggregation consists of layers combining spatial and temporal attention to improve the model’s recognition of complex event dynamics. By integrating a Channel Attention Module and a Temporal Attention Module within each layer, this setup enables the model to emphasize the most informative spatial and temporal features. The dual-attention mechanism selectively focuses on frames and features essential for classification, allowing the model to capture critical moments and transitions precisely, which is especially important in fast-paced scenarios.
 
-\begin{figure}[htbp]
-    \centerline{\includegraphics{figures/fig1.png}}
-    \caption{Dual-Attention Feature Aggregation Block.}
-    \label{fig2}
-\end{figure}
+% \begin{figure}[htbp]
+%     \centerline{\includegraphics{figures/fig1.png}}
+%     \caption{Dual-Attention Feature Aggregation Block.}
+%     \label{fig2}
+% \end{figure}
 
 \begin{itemize}
     \item \textbf{Channel Attention Module:} This module uses the Squeeze-and-Excitation (SE) mechanism \cite{8578843} for channel-level recalibration, bringing forward the most informative channels within each frame. By focusing on key spatial regions, it helps the model differentiate visually similar frames. In fast-paced sports like volleyball, this allows the model to recognize subtle differences, such as distinguishing a spike attempt from a feint or a quick switch from blocking to defensive posture, which may look alike but signify different actions.
