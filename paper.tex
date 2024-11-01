@@ -14,7 +14,7 @@
 \begin{document}
 
 \title{Multi-Task Temporal and Spatial Networks for Precise Event Spotting in Volleyball Videos\\
-\thanks{Identify applicable funding agency here. If none, delete this.}
+% \thanks{Identify applicable funding agency here. If none, delete this.}
 }
 
 \author{\IEEEauthorblockN{1\textsuperscript{st} Hoang Quoc Nguyen}
@@ -57,7 +57,10 @@ email address or ORCID}
 \maketitle
 
 \begin{abstract}
-    In sport videos analysis, especially in speedy sports such as Volleyball, understanding and localizing the precise timing and location of actions and events are critical. We introduce a new task: precise spatio-temporal event spotting, which aims to detect both when and where key events happen. To support this, we develop the KOVO Volleyball Event Dataset, featuring 947 rally videos, and 5,935 events, annotated for both temporal and spatial localization. Our best model achieves a combined mAP of 85.46 across various temporal and spatial thresholds. Notably, we find that incorporating spatial predictions enhances temporal mAP by 5.89 points, underscoring the synergy between spatial and temporal analysis. To the best of our knowledge, this is the first work addressing this task, establishing a strong baseline for future research in spatio-temporal event spotting.
+    In sport videos analysis, especially in speedy sports such as Volleyball, understanding and localizing the precise timing and location of actions and events are critical. We introduce a new task: precise spatio-temporal event spotting, which aims to detect both when and where key events happen. To support this, we develop the KOVO Volleyball Event Dataset, featuring 947 rally videos, and 5,935 events, annotated for both temporal and spatial localization. Our best model achieves a combined mAP of 85.46 across various temporal and spatial thresholds.
+    % TODO: This part should compare results of SPOT and TDEED on KOVO
+    %  Notably, we find that incorporating spatial predictions enhances temporal mAP by 5.89 points, underscoring the synergy between spatial and temporal analysis. 
+     To the best of our knowledge, this is the first work addressing this task, establishing a strong baseline for future research in spatio-temporal event spotting.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -78,7 +81,8 @@ Our contributions are threefold:
 \begin{itemize}
     \item \textbf{New Task Introduction:} We introduce the task of Precise spatio-temporal event spotting, specifically tailored for the dynamics of volleyball.
     \item \textbf{Dataset Development:} We present the \textit{KOVO Event Dataset}, the first of its kind to include detailed temporal and spatial annotations for volleyball rallies, aimed at fostering research in this area.
-    \item \textbf{Model Development:} We propose a multi-task deep learning model that jointly predicts event timing and spatial positions, leveraging this dual focus to achieve improved performance. Notably, incorporating spatial predictions into our model enhances temporal mAP by 5.89 points.
+    \item \textbf{Model Development:} We propose a multi-task deep learning model that jointly predicts event timing and spatial positions, leveraging this dual focus to achieve improved performance. 
+    % Notably, incorporating spatial predictions into our model enhances temporal mAP by 5.89 points.
 \end{itemize}
 
 Our best model achieves a temporal mAP of 90.59, a spatial mAP of 77.94, and a combined mAP of 85.46, providing a strong baseline for this new task. As far as we are aware, this work is the first to explore Precise spatio-temporal event spotting in volleyball, setting the stage for future research in this area.
@@ -131,7 +135,7 @@ To achieve strong performance on this task, several important factors must be co
 \begin{itemize}
     \item \textbf{Capturing Local Spatio-Temporal Features}: The model must be able to detect subtle visual changes and movements across adjacent frames, which is crucial for differentiating between events that may look quite similar.
     \item \textbf{Incorporating Long-Term Temporal Context}: By analyzing a wider temporal range, the model can better understand how events unfold over time, such as tracking how player movements or actions develop before and after a key moment.
-    \item \textbf{Producing Dense Frame-Level Predictions}: For each frame \(x_t\), the model outputs predictions \((\hat{y}_t, \hat{s}_t)\), where \(\hat{y}_t \in \mathbb{R}^K\) represents the class probabilities in a vector of logits, and \(\hat{s}_t \in \mathbb{R}^2\) provides the spatial coordinates \((x, y)\) of the event in the frame. The event class \(c_t\) is determined by applying argmax to \(\hat{y}_t\), ensuring accuracy at the frame level for each event.
+    \item \textbf{Producing Dense Frame-Level Predictions}: For each frame \(x_t\), the model outputs predictions \((\hat{y}_t, \hat{s}_t)\), where \(\hat{y}_t \in \mathbb{R}^K\) represents the class probabilities in a vector of logits, and \(\hat{s}_t \in \mathbb{R}^2\) provides the spatial coordinates \((x, y)\) of the event in the frame. The event class \(c_t\) is then determined by applying argmax to \(\hat{y}_t\).
 \end{itemize}
 
 Meeting these requirements necessitates a robust, end-to-end architecture that effectively leverages both spatial and temporal data. Our approach employs a sequence model that integrates local spatio-temporal features to achieve this goal.
@@ -144,21 +148,28 @@ To effectively learn spatio-temporal features, we propose a multi-task deep lear
 
 \begin{figure}[htbp]
     \centerline{\includegraphics{fig1.png}}
-    \caption{Example of a figure caption.}
+    \caption{Model architecture.}
     \label{fig}
     \end{figure}
 \subsubsection{Feature Extractor}
 The Feature Extractor processes each frame \( x_t \in \mathbb{R}^{H \times W \times 3} \) using a RegNet-Y backbone combined directly with a Gate Shift Module (GSM) to capture spatial and temporal information simultaneously. By embedding GSM within RegNet-Y, the network learns not only spatial structures but also the temporal motion present across frames, as GSM shifts features adaptively to track long-term dependencies. This integration produces a spatio-temporal feature \( f_t \in \mathbb{R}^d \) that captures both motion and spatial details, equipping the model to accurately interpret the flow of events and predict their progression.
 
-\subsubsection{Dual-attention Feature Aggregation}
+\subsubsection{Dual-Attention Feature Aggregation}
+The Dual-Attention Feature Aggregation is a layered structure that combines both spatial and temporal attention to enhance the model's ability to identify complex event dynamics. By integrating a Channel Attention Module and a Temporal Attention Module within each dual-attention layer, this approach enables the model to focus on the most informative features across both spatial and temporal dimensions. Rather than treating each frame equally, the dual-attention mechanism selectively emphasizes frames and features that are most relevant for classification, allowing the model to capture critical moments and transitions accurately, which is especially valuable in fast-paced scenarios.
+
+\begin{figure}[htbp]
+    \centerline{\includegraphics{fig1.png}}
+    \caption{Dual-Attention Feature Aggregation Block.}
+    \label{fig2}
+    \end{figure}
+
 \begin{itemize}
-    % TODO: Review the original Squeeze and Excitation paper, to check if the explanation is correct. Also, add citation
-    \item \textbf{Channel Attention Module:} The Channel Attention Module employs a Squeeze-and-Excitation mechanism to refine feature representation by emphasizing informative channels. This allows the model to focus on key spatial features within each frame, enhancing its sensitivity to subtle visual cues and spatial patterns. By directing attention to relevant regions, the module aids the model in distinguishing between visually similar events occurring in different locations, improving accuracy in event differentiation.
+    \item \textbf{Channel Attention Module:} This module employs the Squeeze-and-Excitation (SE) mechanism \cite{8578843} to recalibrate features on a channel level, highlighting the most informative channels within each frame. By directing attention to key spatial regions, it helps the model differentiate visually similar frames. In fast-paced sports like volleyball, this allows the model to distinguish subtle differences, such as the initiation of a spike versus a feint or a quick switch from blocking to defensive stance, which may look alike but indicate different actions.
 
-    % TODO: Review the original Transformer paper, to check if the explanation is correct. Also, add citation
-    \item \textbf{Temporal Attention Module:} Utilizing multi-head attention as described in the *Attention is All You Need* paper, the Temporal Attention Module aggregates features across adjacent frames to capture long-term dependencies and evolving event dynamics. By focusing on relevant temporal patterns within a broader context, this module enables the model to anticipate the timing and progression of key events with greater accuracy.
-
+    \item \textbf{Temporal Attention Module:} This encoder-only module applies multi-head attention \cite{10.5555/3295222.3295349} across frames to capture long-term dependencies and the progression of events. By selectively focusing on frames that contribute most to classification rather than treating all frames equally, the Temporal Attention Module enhances the model's ability to identify key moments, accurately interpreting event timing and dynamics in high-speed sequences.
 \end{itemize}
+
+
 \subsubsection{Spatio-Temporal Prediction Heads}
 % TODO: Refine this 
 The model predicts event classes and spatial coordinates through distinct heads, each optimized with a multi-task loss function that balances temporal and spatial prediction objectives. The event class head outputs a vector of logits \(\hat{y}_t\) representing the predicted class probabilities for each event, while the spatial head outputs a vector of coordinates \(\hat{s}_t\) representing the predicted spatial location of the event within the frame. By jointly optimizing these heads, the model can effectively learn spatio-temporal features and produce accurate predictions for both event timing and location.

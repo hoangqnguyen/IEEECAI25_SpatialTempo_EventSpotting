@@ -11,9 +11,9 @@
 - [ ] Proposed Method
   - [x] Problem Formulation
   - [ ] Architecture
-    - [ ] Feature Extractor
-    - [ ] Temporal Event Detection
-    - [ ] Spatial Event Locator
+    - [x] Feature Extractor
+    - [x] Dual Attention Block
+    - [ ] Predictor Heads
     - [ ] Multi-task learning
     - [ ] Loss function
 - [ ] Experiment
