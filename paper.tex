@@ -209,11 +209,14 @@ To effectively learn spatio-temporal features, we propose a multi-task deep lear
 
 % TODO: Add a Math formula for the model architecture: ...
 
-\begin{figure}[htbp]
-    \centerline{\includegraphics{figures/fig1.png}}
+\begin{figure*} 
+    \centering
+    \includegraphics[width=\textwidth]{figures/fig-arch.jpg}
     \caption{Model architecture.}
-    \label{fig}
-\end{figure}
+    \label{fig-arch}
+\end{figure*}
+
+
 
 \subsubsection{Feature Extractor}
 The Feature Extractor processes each frame \( x_t \in \mathbb{R}^{H \times W \times 3} \) using a RegNet-Y backbone integrated with a Gate Shift Module (GSM) to capture both spatial and temporal information at once. With GSM embedded in RegNet-Y, the network learns not only spatial details but also temporal motion between frames, as GSM adaptively shifts features to track longer-term dependencies. This integration produces a spatio-temporal feature \( f_t \in \mathbb{R}^d \) that captures both motion and spatial characteristics, equipping the model to interpret event flow and predict its progression accurately.
