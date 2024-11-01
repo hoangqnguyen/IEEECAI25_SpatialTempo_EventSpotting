@@ -74,9 +74,18 @@ In contrast, \textit{Temporal Action Localization (TAL)} centers on pinpointing 
 
 Recent developments in action spotting, like \textit{T-DEED} \cite{tdeed23} and \textit{E2E-Spot} \cite{spot22}, have shown that models can achieve frame-level accuracy in capturing fast-paced events by leveraging deep learning architectures. Datasets such as \textit{FigureSkating} \cite{figureskating} and \textit{FineDiving} \cite{finediving} have driven progress in action spotting, particularly highlighting the need for precise temporal detection in sports focused on individual athletes. However, these datasets are narrowly focused on specific sports and do not reflect the rapid interactions and complexities seen in high-speed, team-oriented sports like volleyball.
 
-In volleyball, quick transitions play out in particular regions of the court, making spatial localization just as critical as temporal precision. To address this gap, we introduce a new task: \textit{Precise Spatio-Temporal Event Spotting}, which targets both the exact timing and spatial positioning of key events. This approach, unlike traditional action spotting, aims to provide deeper insights into player positioning and movement patterns, which are essential for analyzing volleyball gameplay.
+In volleyball, quick transitions play out in particular regions of the court, making spatial localization just as critical as temporal precision. To address this gap, we introduce a new task: \textit{Precise Spatio-Temporal Event Spotting} (as depicted in Fig.~\ref{fig-kovo-ex}), which targets both the exact timing and spatial positioning of key events. This approach, unlike traditional action spotting, aims to provide deeper insights into player positioning and movement patterns, which are essential for analyzing volleyball gameplay.
 
 For other sports, datasets like \textit{SoccerNet-v2} \cite{soccernetv2} have advanced action spotting with detailed temporal and spatial annotations, helping push model capabilities forward. Yet, no similar dataset exists for volleyball, a sport characterized by its rapid exchanges and high demand for spatial precision. To bridge this gap, we present the \textit{KOVO Event Dataset}, which consists of 947 rally videos, 890,797 frames, and 5,935 annotated key actions. This dataset provides fine-grained annotations for both temporal and spatial event localization, making it an invaluable resource for building models that capture volleyball's unique dynamics.
+
+\begin{figure*}[t] 
+    \centering
+    \includegraphics[width=\textwidth]{figures/fig-kovo-ex.jpg}
+    \caption{Example sequence for a spike event, highlighting the exact timing (\(t+3\)) with the spatial location annotated by the white circle and the event class indicated by the text above it.}
+    \label{fig-kovo-ex}
+\end{figure*}
+
+
 
 Our contributions are threefold:
 \begin{itemize}
@@ -201,7 +210,7 @@ To effectively learn spatio-temporal features, we propose a multi-task deep lear
 % TODO: Add a Math formula for the model architecture: ...
 
 \begin{figure}[htbp]
-    \centerline{\includegraphics{fig1.png}}
+    \centerline{\includegraphics{figures/fig1.png}}
     \caption{Model architecture.}
     \label{fig}
 \end{figure}
@@ -213,7 +222,7 @@ The Feature Extractor processes each frame \( x_t \in \mathbb{R}^{H \times W \ti
 The Dual-Attention Feature Aggregation consists of layers combining spatial and temporal attention to improve the model’s recognition of complex event dynamics. By integrating a Channel Attention Module and a Temporal Attention Module within each layer, this setup enables the model to emphasize the most informative spatial and temporal features. The dual-attention mechanism selectively focuses on frames and features essential for classification, allowing the model to capture critical moments and transitions precisely, which is especially important in fast-paced scenarios.
 
 \begin{figure}[htbp]
-    \centerline{\includegraphics{fig1.png}}
+    \centerline{\includegraphics{figures/fig1.png}}
     \caption{Dual-Attention Feature Aggregation Block.}
     \label{fig2}
 \end{figure}
