@@ -13,7 +13,7 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{Multi-Task Temporal and Spatial Networks for Precise Event Spotting in Volleyball Videos\\
+\title{Dual-Attention Network for Precise Temporal and Spatial Event Spotting in Volleyball Videos\\
 % \thanks{Identify applicable funding agency here. If none, delete this.}
 }
 
@@ -118,17 +118,19 @@ In volleyball, spatial localization is as critical as timing. Understanding even
 
 Inspired by \textit{E2E-Spot} \cite{spot22}, our approach uses RegNet-Y \cite{radosavovic2020designingnetworkdesignspaces} with GSM \cite{9156729} for adaptive temporal shifts. This combination balances efficiency and precision, making it ideal for capturing complex spatio-temporal dynamics in volleyball.
 
-\section{Dataset Overview}
-% TODO: Please refine this crappy draft
-We collect games from 23-24 seasons from a private kovo database.
-\subsection{Data Content and Statistics}
+\section{Dataset Overview} With permission from the Korea Volleyball Federation (KOVO) \cite{kovoweb}, we collected 235 volleyball game videos, each containing temporal annotations for game events. Using field keypoint detection \cite{10312494}, we segmented each game into "replay" and "in-play" sequences (rallies). Each rally was then converted to individual frames at 1280x720 resolution and 30 fps. To facilitate event location annotation, we developed a proprietary tool, further detailed in the Annotation Process subsection.
 
+% \subsection{Data Content and Statistics} To automate data collection, we created a Python script to download game videos and event timings. This data, once segmented into rallies and converted to frames, was annotated using our custom tool, designed to streamline collaboration and expedite labeling. Further details on this process are outlined in the Annotation Process subsection.
 
-We wrote python script to automatically download volleyball games videos and its event timing.
-Then we use May's field keypoints detection \cite{10312494} to segmentize each game into replay vs inplay sequences (we call it rallies). Then, we extract each short video into indifual frames, at 30 fps and 1280x720. To annotate the event locaion, we build our own proprieatry tool, which is described in the anntoation process subsection.
 \subsection{Annotation Process}
-We annotate each event with location. For volleyball, the ball location is typically the most important cue for each game event. Therefore, most of the time, we annotate the ball location as the event location.
-Also, ball location tracking is a well researched topic. This means that we could use ball detection module such as vanyis \cite{10312079} to get the ball location without human labour.
+
+Each event in the dataset is annotated with precise spatial information, specifically focusing on the ball’s location, as this serves as the primary indicator for volleyball actions. To achieve high accuracy, we manually labeled the ball’s position in each frame, ensuring detailed and reliable annotations essential for understanding the dynamics of each event. Although this approach is time-intensive, it provides high-quality data that underpins robust event detection and tracking.
+
+The dataset encompasses six core volleyball actions—Serve, Receive, Set, Spike, Dig, and Block—provided by the Korea Volleyball Federation (KOVO). These actions capture the key elements of gameplay and balance both offensive and defensive actions critical to rally sequences.
+
+To streamline future work, advanced models like MaxVit Sequential \cite{10.1145/3689061.3689075} could assist in automating the ball-tracking process, reducing manual effort while maintaining annotation quality.
+
+
 \begin{table}[htbp]
     \caption{KOVO Dataset Action Counts and Percentages}
     \begin{center}
@@ -149,18 +151,12 @@ Also, ball location tracking is a well researched topic. This means that we coul
     \end{table}
     
 
+    \subsection{Dataset Splits}
 
-\begin{figure}[htbp]
-    \centerline{\includegraphics{fig1.png}}
-    \caption{The GUI of our internal annotation tool}
-    \label{fig-annotate-app}
-\end{figure}
-
-
-\subsection{Dataset Splits}
-We handpicked videos with diverse visual features to ....
-then we split them into train val test ...
-
+    We divided the KOVO Event Dataset into three distinct subsets: training, validation, and testing. These subsets were selected to reflect a balanced representation of rally variations, camera angles, and visual characteristics across different matches, which helps improve model generalization.
+    
+    The split ratios are as follows: the training set comprises 561 rallies (approximately 60\% of the dataset), the validation set includes 220 rallies (around 23\%), and the testing set contains 166 rallies (about 17.5\%). 
+    
 
 \begin{table}[htbp]
     \caption{Dataset Splits for Volleyball Analysis}
@@ -177,10 +173,12 @@ then we split them into train val test ...
     \end{tabular}
     \label{tab-kovo-split}
     \end{center}
-    \end{table}
-\subsection{Release and Access}
-Given the large size of the dataset, we are unable to release the full-resolution (1280x720) videos in this paper. However, we have made a resized version (512x288 resolution) along with the corresponding annotations available on Kaggle, totaling 100GB. Our dataset is available at our project page: \url{www.kaggle.com/soon}. Note that, due to copyright restrictions, please fill in the NDA form to get access to the data.
+\end{table}
+
     
+\subsection{Release and Access}
+
+The full-resolution dataset is unavailable due to size constraints, but a resized version (512x288) with annotations (100GB) is accessible on Kaggle at \url{www.kaggle.com/soon}. Access requires a completed NDA form due to copyright restrictions.
 
 \section{Proposed Method}
 \subsection{Problem Formulation}

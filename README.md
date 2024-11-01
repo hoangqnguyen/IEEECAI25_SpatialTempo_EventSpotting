@@ -3,11 +3,10 @@
 - [x] Abstract
 - [x] Intro
 - [x] Related Work
-- [ ] Dataset Overview
-  - [ ] Content, Stats
-  - [ ] Annotation Process
-  - [ ] Dataset Splits
-  - [ ] Release and Access
+- [x] Dataset Overview
+  - [x] Annotation Process
+  - [x] Dataset Splits
+  - [x] Release and Access
 - [ ] Proposed Method
   - [x] Problem Formulation
   - [ ] Architecture
