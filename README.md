@@ -13,9 +13,8 @@
   - [ ] Architecture
     - [x] Feature Extractor
     - [x] Dual Attention Block
-    - [ ] Predictor Heads
-    - [ ] Multi-task learning
-    - [ ] Loss function
+    - [x] Predictor Heads
+    - [x] Loss function
 - [ ] Experiment
 - [ ] Conclusion
 - [ ] Final authors list
